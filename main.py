@@ -1,23 +1,28 @@
 from PyQt6.QtWidgets import*
 
+from filehelper import *
 
+notes = read_from_file()
+print(notes)
 app = QApplication([])
 window = QWidget()
 
 
 
 text_edit = QTextEdit()
-list_notes_lbl = QLineEdit()
+list_notes = QListWidget()
+list_notes.addItems(notes)
+list_notes_lbl = QLineEdit("список заміток")
 notes_list = QListWidget()
-create_note_btn = QPushButton()
-delete_note_btn = QPushButton()
-save_note_btn = QPushButton()
-list_teg_lbl = QLineEdit()
+create_note_btn = QPushButton("створити замітку")
+delete_note_btn = QPushButton("видалити замітку")
+save_note_btn = QPushButton("зберегти замітку")
+list_teg_lbl = QLineEdit("список тегів")
 tegs_list = QListWidget()
 teg_input = QLineEdit()
-add_teg_btn = QPushButton()
-delete_teg_btn = QPushButton()
-search_note_btn = QPushButton()
+add_teg_btn = QPushButton("додати ло замітки")
+delete_teg_btn = QPushButton("відкріпити від замітки")
+search_note_btn = QPushButton("шукати замітки по теги")
 
 
 
@@ -50,7 +55,17 @@ app.exec()
 
 
 
+def show_note():
+    key = list_notes.selectedItems()[0].text()
+    text_edit.setText(notes[key])
+    text_edit.clear()
+    tegs_list.addItems(notes)
+    print(key)
 
+def save_note():
+    notes[key] = field_text.toPlainText()
+    write_in_file(notes)
 
-window.show
+list_notes.itemClicked.connect(show_note)
+window.show()
 app.exec()
